@@ -13,13 +13,63 @@ public class LibraryTests
     }
 
     [TestMethod]
-    public void AddBook_SeeIfBookHasISBN_ReturnFalse()
+    public void AddBook_CreateBookWithoutISBN_ReturnFalse()
     {
-        // This will create a new book object without a isbn :)
         var book = new Book("TITLE", "AUTHOR", "", 404);
-        // This will create a Result variable from the function Create BOOKK :D
         var Result = _libSys.AddBook(book);
-        // This will hopefully fail as creating a book should FAIL :)
         Assert.IsFalse(Result);
     }
+
+    [TestMethod]
+    public void Add2Books_SeeIf2SameISBNWorks_ReturnFalse()
+    {
+        var book1 = new Book("TITLE", "AUTHOR", " 978-91-47-15045-8", 404);
+        _libSys.AddBook(book1);
+        var book2 = new Book("TITLE", "AUTHOR", " 978-91-47-15045-8", 404);
+        var Result = _libSys.AddBook(book2);
+        Assert.IsFalse(Result);
+    }
+
+    [TestMethod]
+    public void RemoveBook_SeeIfPossibleToRemoveThyBook_ReturnTrue()
+    {
+        var bookToRemove = new Book("TITLE", "AUTHOR", "9191", 404);
+        _libSys.AddBook(bookToRemove);
+        var result = _libSys.RemoveBook("9191");
+        Assert.IsTrue(result);
+    }
+
+    [TestMethod]
+    public void RemoveBorrowedBook_BorrowedBooksShouldNotBeAchiveblyRemoveableBySystematicalMeans_ReturnTrue()
+    {
+        // B ook got thyself removed and it was not very good, please fix
+        var bookToRemove = new Book("TITLE", "AUTHOR", "9191", 404);
+        _libSys.AddBook(bookToRemove);
+        _libSys.BorrowBook("9191");
+        var result = _libSys.RemoveBook("9191");
+        Assert.IsTrue(result); 
+    }
+
+    [TestMethod]
+    public void SearchForBookus_SearchResultsShouldNotBeCaseSensative_ReturnTrue()
+    {
+        var Book = new Book("TITLE", "AUTHOR", "9191", 404);
+        _libSys.AddBook(Book);
+        var SearchedAuthorBooks = _libSys.SearchByAuthor("author");
+        Assert.IsNotEmpty(SearchedAuthorBooks);
+    }
+
+    [TestMethod]
+    public void SearchWithBrokenEnglish_SearchingWithPartialyMatchingWordShouldFindResult_ReturnTrue()
+    {
+        var Book = new Book("TITLE", "AUTHOR", "9191", 404);
+        _libSys.AddBook(Book);
+        var SearchedAuthorBooks = _libSys.SearchByAuthor("autho");
+        Assert.IsNotEmpty(SearchedAuthorBooks);
+    }
+
+    // PART 2
+
+
+
 }
