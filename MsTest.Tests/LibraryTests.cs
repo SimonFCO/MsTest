@@ -42,9 +42,8 @@ public class LibraryTests
     }
 
     [TestMethod]
-    public void RemoveBorrowedBook_BorrowedBooksShouldNotBeAchiveblyRemoveableBySystematicalMeans_ReturnTrue()
+    public void RemoveBorrowedBook_BorrowedBooksShouldNotBeAchiveblyRemoveableBySystematicalMeans_ReturnFalse()
     {
-        // B ook got thyself removed and it was not very good, please fix
         var bookToRemove = new Book("TITLE", "AUTHOR", "9191", 404);
         _libSys.AddBook(bookToRemove);
         _libSys.BorrowBook("9191");
@@ -52,7 +51,7 @@ public class LibraryTests
         Assert.IsFalse(result); 
     }
 
-    [TestMethod] //Author Search
+    [TestMethod]
     public void SearchForBook_TitleSearchNotBeCaseSensative_ReturnTrue()
     {
         var Book = new Book("TITLE", "AUTHOR", "9191", 404);
@@ -61,7 +60,7 @@ public class LibraryTests
         Assert.IsTrue(SearchedAuthorBooks.Count > 0);
     }
 
-    [TestMethod] //Author Search
+    [TestMethod]
     public void SearchForBook_AuthorSearchNotBeCaseSensative_ReturnTrue()
     {
         var Book = new Book("TITLE", "AUTHOR", "9191", 404);
@@ -88,9 +87,6 @@ public class LibraryTests
         Assert.IsTrue(SearchedAuthorBooks.Count > 0);
     }
 
-    // PART 2
-
-    //En bok som lånas ut ska markeras som utlånad i systemet
     [TestMethod]
     public void BorrowedBookCheck_BorrowedBooksShouldBeMarkedBorrowed_ReturnTrue()
     {
@@ -101,7 +97,6 @@ public class LibraryTests
         Assert.IsTrue(IsBookBorrowed.IsBorrowed);
     }
 
-    //Redan utlånade böcker ska inte kunna lånas ut
     [TestMethod]
     public void BorrowAlreadyBorrowed_BorrowedBooksCantBeBorrowedAgain_ReturnFalse()
     {
@@ -112,7 +107,6 @@ public class LibraryTests
         Assert.IsFalse(borrowAgain);
     }
 
-    //När en bok lånas ska rätt utlåningsdatum sättas
     [TestMethod]
     public void BorrowBook_CheckBorrowDateIsCorrect_ReturnTrue()
     {
@@ -129,7 +123,6 @@ public class LibraryTests
 
     }
 
-    //Vid återlämning ska bokens utlåningsdatum nollställas
     [TestMethod]
     public void ReturnBook_SeeIfReturnDateResets_ReturnTrue()
     {
@@ -141,7 +134,6 @@ public class LibraryTests
         Assert.IsNull(Book.BorrowDate);
     }
 
-    //Endast utlånade böcker ska kunna återlämnas
     [TestMethod]
     public void ReturnBook_OnlyBorrowedBooksCanBeReturned_ReturnFalse()
     {
@@ -152,7 +144,6 @@ public class LibraryTests
         Assert.IsFalse(returnBookTest);
     }
 
-    //Korrekt beräkning av om en bok är försenad ska implementeras
     [TestMethod]
     public void CheckBookOverdue_CheckIfBookIsNotOverdue_ReturnFalse()
     {
@@ -166,7 +157,6 @@ public class LibraryTests
         Assert.IsFalse(actual);
     }
 
-    //Förseningsavgifter ska beräknas enligt specificerad formel (förseningsavgift * antal dagar försenad)
     [TestMethod]
     public void CalculateLateFee_SeeIfLateFeeCalculationCorrect_ReturnTrue()
     {
