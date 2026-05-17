@@ -53,3 +53,22 @@ Fix:Lade till en StringComparison.OrdinalIgnoreCase()
         return books.Where(b => b.Title.Contains(title, StringComparison.OrdinalIgnoreCase)).ToList();
     }
 -----------------------------------------------------------------------------------
+LibrarySystem:
+ReturnBook() Rad:79
+
+Bugg: BorrowDate inte nollstäld efter man återlämnar boken
+
+Fix: Lade till en kort linje kod som sätter BorrowDate till null
+
+book.BorrowDate = null;
+
+-----------------------------------------------------------------------------------
+LibrarySystem:
+CalculateLateFee() Rad:96
+
+Bugg: Den räknade inte ut rätt Fee för att vara sen
+
+Fix: bytte från DaysLate + FeePerDay till DaysLate * FeePerDay
+
+return daysLate * feePerDay;
+------------------------------------------------------------------------------------

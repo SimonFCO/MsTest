@@ -130,4 +130,55 @@ public class LibraryTests
     }
 
     //Vid återlämning ska bokens utlåningsdatum nollställas
+    [TestMethod]
+    public void ReturnBook_SeeIfReturnDateResets_ReturnTrue()
+    {
+        var Book = new Book("TITLE", "AUTHOR", "9191", 404);
+        _libSys.AddBook(Book);
+        _libSys.BorrowBook("9191");
+        _libSys.ReturnBook("9191");
+
+        Assert.IsNull(Book.BorrowDate);
+    }
+
+    //Endast utlånade böcker ska kunna återlämnas
+    [TestMethod]
+    public void ReturnBook_OnlyBorrowedBooksCanBeReturned_ReturnFalse()
+    {
+        var Book = new Book("TITLE", "AUTHOR", "9191", 404);
+        _libSys.AddBook(Book);
+        var returnBookTest = _libSys.ReturnBook("9191");
+
+        Assert.IsFalse(returnBookTest);
+    }
+
+    //Korrekt beräkning av om en bok är försenad ska implementeras
+    [TestMethod]
+    public void CheckBookOverdue_CheckIfBookIsNotOverdue_ReturnFalse()
+    {
+        var book = new Book("TestBok", "Författare", "9191", 2026);
+        _libSys.AddBook(book);
+        _libSys.BorrowBook("9191");
+        book.BorrowDate = DateTime.Now.AddDays(-5);
+
+        bool actual = _libSys.IsBookOverdue("9191", 10);
+
+        Assert.IsFalse(actual);
+    }
+
+    //Förseningsavgifter ska beräknas enligt specificerad formel (förseningsavgift * antal dagar försenad)
+    [TestMethod]
+    public void CalculateLateFee_SeeIfLateFeeCalculationCorrect_ReturnTrue()
+    {
+        var book = new Book("TestBok", "Författare", "9191", 2026);
+        _libSys.AddBook(book);
+        _libSys.BorrowBook("9191");
+        book.BorrowDate = DateTime.Now.AddDays(-15);
+
+        decimal lateFees = _libSys.CalculateLateFee("9191", 5);
+        decimal ActuallLateFee = 0.5m * 5;
+
+        var FeeCorrect = lateFees == ActuallLateFee;
+        Assert.IsTrue(FeeCorrect);
+    }
 }

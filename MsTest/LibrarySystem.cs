@@ -82,6 +82,7 @@
         if (book != null && book.IsBorrowed)
         {
             book.IsBorrowed = false;
+            book.BorrowDate = null;
             return true;
         }
         return false;
@@ -102,7 +103,7 @@
             return 0;
 
         decimal feePerDay = 0.5m;
-        return daysLate + feePerDay;
+        return daysLate * feePerDay;
     }
 
     public bool IsBookOverdue(string isbn, int loanPeriodDays)
