@@ -90,6 +90,44 @@ public class LibraryTests
 
     // PART 2
 
-    
+    //En bok som lånas ut ska markeras som utlånad i systemet
+    [TestMethod]
+    public void BorrowedBookCheck_BorrowedBooksShouldBeMarkedBorrowed_ReturnTrue()
+    {
+        var Book = new Book("TITLE", "AUTHOR", "9191", 404);
+        _libSys.AddBook(Book);
+        _libSys.BorrowBook("9191");
+        var IsBookBorrowed = _libSys.SearchByISBN("9191");
+        Assert.IsTrue(IsBookBorrowed.IsBorrowed);
+    }
 
+    //Redan utlånade böcker ska inte kunna lånas ut
+    [TestMethod]
+    public void BorrowAlreadyBorrowed_BorrowedBooksCantBeBorrowedAgain_ReturnFalse()
+    {
+        var Book = new Book("TITLE", "AUTHOR", "9191", 404);
+        _libSys.AddBook(Book);
+        _libSys.BorrowBook("9191");
+        var borrowAgain = _libSys.BorrowBook("9191");
+        Assert.IsFalse(borrowAgain);
+    }
+
+    //När en bok lånas ska rätt utlåningsdatum sättas
+    [TestMethod]
+    public void BorrowBook_CheckBorrowDateIsCorrect_ReturnTrue()
+    {
+        var book = new Book("TITLE", "AUTHOR", "404", 2026);
+        _libSys.AddBook(book);
+  
+        DateTime before = DateTime.Now;
+        _libSys.BorrowBook("404");
+        DateTime after = DateTime.Now;
+
+        bool checkDate = book.BorrowDate >= before && book.BorrowDate <= after;
+
+        Assert.IsTrue(checkDate);
+
+    }
+
+    //Vid återlämning ska bokens utlåningsdatum nollställas
 }
