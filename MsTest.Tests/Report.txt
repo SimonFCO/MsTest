@@ -1,0 +1,30 @@
+LibrarySystem:
+AddBook() Rad:19
+
+Bugg: Det går att lägga till en bok med tomt eller null ISBN
+
+Fix:Lade till en bit kod som kollar så att ISBN inte är null eller whiteSpace
+
+if (string.IsNullOrWhiteSpace(book.ISBN))
+        {
+            return false;
+        }
+
+-----------------------------------------------------------------------------------
+
+LibrarySystem:
+AddBook() Rad:19
+    
+Bugg: Flera böcker med samma ISBN kunde läggas till
+
+Fix:Lade till en bit kod som kollar så att man inte lägger till en bok med ett ISBN som redan används
+
+foreach (var bookItem in books)
+        {
+            if(bookItem.ISBN == book.ISBN)
+            {
+                return false;
+            }
+        }
+
+-----------------------------------------------------------------------------------

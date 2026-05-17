@@ -18,6 +18,19 @@
 
     public bool AddBook(Book book)
     {
+        if (string.IsNullOrWhiteSpace(book.ISBN))
+        {
+            return false;
+        }
+            
+        foreach (var bookItem in books)
+        {
+            if(bookItem.ISBN == book.ISBN)
+            {
+                return false;
+            }
+        }
+
         books.Add(book);
         return true;
     }
