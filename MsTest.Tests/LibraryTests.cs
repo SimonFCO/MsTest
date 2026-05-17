@@ -7,10 +7,12 @@ public class LibraryTests
 {
     private LibrarySystem _libSys;
 
-    public LibraryTests()
+    [TestInitialize]
+    public void Setup()
     {
         _libSys = new LibrarySystem();
     }
+
 
     [TestMethod]
     public void AddBook_CreateBookWithoutISBN_ReturnFalse()
@@ -47,7 +49,7 @@ public class LibraryTests
         _libSys.AddBook(bookToRemove);
         _libSys.BorrowBook("9191");
         var result = _libSys.RemoveBook("9191");
-        Assert.IsTrue(result); 
+        Assert.IsFalse(result); 
     }
 
     [TestMethod]
@@ -56,7 +58,7 @@ public class LibraryTests
         var Book = new Book("TITLE", "AUTHOR", "9191", 404);
         _libSys.AddBook(Book);
         var SearchedAuthorBooks = _libSys.SearchByAuthor("author");
-        Assert.IsNotEmpty(SearchedAuthorBooks);
+        Assert.IsTrue(SearchedAuthorBooks.Count > 0);
     }
 
     [TestMethod]
@@ -65,7 +67,7 @@ public class LibraryTests
         var Book = new Book("TITLE", "AUTHOR", "9191", 404);
         _libSys.AddBook(Book);
         var SearchedAuthorBooks = _libSys.SearchByAuthor("autho");
-        Assert.IsNotEmpty(SearchedAuthorBooks);
+        Assert.IsTrue(SearchedAuthorBooks.Count > 0);
     }
 
     // PART 2
