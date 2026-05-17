@@ -11,7 +11,6 @@ if (string.IsNullOrWhiteSpace(book.ISBN))
         }
 
 -----------------------------------------------------------------------------------
-
 LibrarySystem:
 AddBook() Rad:19
     
@@ -27,4 +26,30 @@ foreach (var bookItem in books)
             }
         }
 
+-----------------------------------------------------------------------------------
+LibrarySystem:
+RemoveBook() Rad:38
+    
+Bugg: Det går att ta bort en utlånad bok
+
+Fix:Lade till en bit kod som kollar så att man inte tar bort en utlånad bok
+
+ if (!book.IsBorrowed)
+            {
+                books.Remove(book);
+                return true;
+            }
+-----------------------------------------------------------------------------------
+LibrarySystem:
+SearchByTitle() Rad:57
+    
+Bugg1: när man söker efter en titel så är det Case sensative
+Bugg2: Sökande efter en titel måste vara exakta
+
+Fix:Lade till en StringComparison.OrdinalIgnoreCase()
+
+ public List<Book> SearchByTitle(string title)
+    {
+        return books.Where(b => b.Title.Contains(title, StringComparison.OrdinalIgnoreCase)).ToList();
+    }
 -----------------------------------------------------------------------------------

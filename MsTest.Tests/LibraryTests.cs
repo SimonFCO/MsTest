@@ -52,8 +52,17 @@ public class LibraryTests
         Assert.IsFalse(result); 
     }
 
-    [TestMethod]
-    public void SearchForBookus_SearchResultsShouldNotBeCaseSensative_ReturnTrue()
+    [TestMethod] //Author Search
+    public void SearchForBook_TitleSearchNotBeCaseSensative_ReturnTrue()
+    {
+        var Book = new Book("TITLE", "AUTHOR", "9191", 404);
+        _libSys.AddBook(Book);
+        var SearchedAuthorBooks = _libSys.SearchByTitle("title");
+        Assert.IsTrue(SearchedAuthorBooks.Count > 0);
+    }
+
+    [TestMethod] //Author Search
+    public void SearchForBook_AuthorSearchNotBeCaseSensative_ReturnTrue()
     {
         var Book = new Book("TITLE", "AUTHOR", "9191", 404);
         _libSys.AddBook(Book);
@@ -62,7 +71,16 @@ public class LibraryTests
     }
 
     [TestMethod]
-    public void SearchWithBrokenEnglish_SearchingWithPartialyMatchingWordShouldFindResult_ReturnTrue()
+    public void SearchWithBrokenEnglish_TitleSearchingWithPartialyMatchingWordShouldFindResult_ReturnTrue()
+    {
+        var Book = new Book("TITLE", "AUTHOR", "9191", 404);
+        _libSys.AddBook(Book);
+        var SearchedAuthorBooks = _libSys.SearchByTitle("itle");
+        Assert.IsTrue(SearchedAuthorBooks.Count > 0);
+    }
+
+    [TestMethod]
+    public void SearchWithBrokenEnglish_AuthorSearchingWithPartialyMatchingWordShouldFindResult_ReturnTrue()
     {
         var Book = new Book("TITLE", "AUTHOR", "9191", 404);
         _libSys.AddBook(Book);
